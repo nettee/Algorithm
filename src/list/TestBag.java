@@ -1,4 +1,4 @@
-package bag;
+package list;
 
 public class TestBag {
 
