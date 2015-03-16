@@ -14,7 +14,7 @@ public class ArrayList<Item> implements Iterable<Item> {
 	}
 	
 	public boolean isEmpty() {
-		return N == 0;
+		return size() == 0;
 	}
 	
 	public int size() {
