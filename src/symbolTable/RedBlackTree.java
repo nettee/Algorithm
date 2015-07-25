@@ -1,10 +1,6 @@
 package symbolTable;
 
-import symbolTable.BST.Node;
-
-public class RedBlackST<Key extends Comparable<Key>, Value> 
-//implements ST<Key, Value> 
-{
+public class RedBlackTree<Key extends Comparable<Key>, Value> extends BST<Key, Value> {
 	
 	private static final boolean RED = true;
 	private static final boolean BLACK = false;
@@ -16,43 +12,12 @@ public class RedBlackST<Key extends Comparable<Key>, Value>
 		return x.color == RED;
 	}
 	
-	private class Node {
-		Key key;
-		Value val;
-		Node left, right;
-		int N;
-		boolean color;
-		
-		Node(Key key, Value val, int N, boolean color) {
-			this.key = key;
-			this.val = val;
-			this.N = N;
-			this.color = color;
-		}
-	}
-	
 	private Node root;
 	
-	public RedBlackST() {
+	public RedBlackTree() {
 		root = null;
 	}
 
-	public boolean isEmpty() {
-		return size() == 0;
-	}
-	
-	public int size() {
-		return size(root);
-	}
-	
-	private int size(Node x) {
-		if (x == null) {
-			return 0;
-		} else {
-			return x.N;
-		}
-	}
-	
 	private Node rotateLeft(Node h) {
 		Node x = h.right;
 		h.right = x.left;

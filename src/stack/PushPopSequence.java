@@ -16,7 +16,7 @@ public class PushPopSequence {
 		}
 		int N = out.length;
 		
-		LinkedStack<Integer> stack = new LinkedStack<Integer>();
+		Stack<Integer> stack = new LinkedStack<Integer>();
 		int i = 0;  // out[i]: next to check item
 		int j = 0;  // in[j]: next integer to push
 		

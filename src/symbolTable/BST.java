@@ -10,12 +10,23 @@ public class BST<Key extends Comparable<Key>, Value> implements ST<Key, Value> {
 		Node left, right;
 		int N;  // number of nodes in subtree
 		int height;
+		boolean color = false;  // for Red-Black tree
+		Node prev = null, next = null;  // for threaded BST 
 		
 		public Node(Key key, Value val, int N) {
 			this.key = key;
 			this.val = val;
 			this.N = N;
 			this.height = 1;
+		}
+		
+		// for Red-Black tree
+		public Node(Key key, Value val, int N, boolean color) {
+			this.key = key;
+			this.val = val;
+			this.N = N;
+			this.height = 1;
+			this.color = color;
 		}
 		
 		public String toString() {
@@ -37,6 +48,7 @@ public class BST<Key extends Comparable<Key>, Value> implements ST<Key, Value> {
 		return size(root);
 	}
 	
+	// used by sub-classes
 	protected int size(Node x) {
 		if (x == null) {
 			return 0;
@@ -49,7 +61,8 @@ public class BST<Key extends Comparable<Key>, Value> implements ST<Key, Value> {
 		return height(root);
 	}
 	
-	public int height(Node x) {
+	// used in AVL tree
+	protected int height(Node x) {
 		if (x == null) {
 			return 0;
 		} else {
@@ -121,12 +134,10 @@ public class BST<Key extends Comparable<Key>, Value> implements ST<Key, Value> {
 	}
 	
 	protected Node min(Node x) {
-		// assumption: x != null
-		if (x.left == null) {
-			return x;
-		} else {
-			return min(x.left);
+		while (x.left != null) {
+			x = x.right;
 		}
+		return x;
 	}
 	
 	public Key max() {
@@ -144,8 +155,8 @@ public class BST<Key extends Comparable<Key>, Value> implements ST<Key, Value> {
 	}
 	
 	public void deleteMin() {
-		if (root == null) {
-			throw new NullPointerException();
+		if (isEmpty()) {
+			return;
 		}
 		root = deleteMin(root);
 	}
@@ -163,8 +174,8 @@ public class BST<Key extends Comparable<Key>, Value> implements ST<Key, Value> {
 	}
 	
 	public void deleteMax() {
-		if (root == null) {
-			throw new NullPointerException();
+		if (isEmpty()) {
+			return;
 		}
 		root = deleteMax(root);
 	}
@@ -195,13 +206,17 @@ public class BST<Key extends Comparable<Key>, Value> implements ST<Key, Value> {
 		} else if (cmp > 0) {
 			x.right = delete(x.right, key);
 		} else {
+			// delete node x:
+			// case 1: if x has no more than one child,
+			// simply cut off x
 			if (x.right == null) {
 				return x.left;
 			}
 			if (x.left == null) {
 				return x.right;
 			}
-			// replace t with t's successor
+			// case 2: if x has two children,
+			// replace it with it's successor
 			Node t = x;
 			x = min(t.right);
 			x.right = deleteMin(t.right);
@@ -269,10 +284,10 @@ public class BST<Key extends Comparable<Key>, Value> implements ST<Key, Value> {
 	}
 	
 	public Key select(int k) {
-		Node x = select(root, k);
-		if (x == null) {
+		if (k < 0 || k >= size()) {
 			throw new IndexOutOfBoundsException();
 		}
+		Node x = select(root, k);
 		return x.key;
 	}
 	
@@ -292,6 +307,9 @@ public class BST<Key extends Comparable<Key>, Value> implements ST<Key, Value> {
 	
 	// number of keys less than the given key
 	public int rank(Key key) {
+		if (key == null) {
+			throw new NullPointerException("rank of null key");
+		}
 		return rank(root, key);
 	}
 	

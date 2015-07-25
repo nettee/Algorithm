@@ -1,6 +1,7 @@
 package symbolTable;
 
 import queue.LinkedQueue;
+import queue.Queue;
 
 public class ArrayST<Key extends Comparable<Key>, Value> 
 		implements ST<Key, Value> {
@@ -132,7 +133,7 @@ public class ArrayST<Key extends Comparable<Key>, Value>
 	}
 	
 	public Iterable<Key> keys(Key low, Key high) {
-		LinkedQueue<Key> q = new LinkedQueue<Key>();
+		Queue<Key> q = new LinkedQueue<Key>();
 		for (int i = rank(low); i < rank(high); i++) {
 			q.enqueue(keys[i]);
 		}

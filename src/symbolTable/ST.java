@@ -19,7 +19,9 @@ public interface ST<Key extends Comparable<Key>, Value> {
 	Key floor(Key key);
 	Key ceiling(Key key);
 	
+	// select key which is greater than k keys
 	Key select(int k);
+	// the number of keys less than key 
 	int rank(Key key);
 	
 	Iterable<Key> keys();

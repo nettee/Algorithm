@@ -3,9 +3,10 @@ package heap;
 public class TestBinaryHeap {
 
 	public static void main(String[] args) {
-		BinaryHeap<Integer> h = new BinaryHeap();
 		Integer[] arr = {13, 21, 16, 24, 31, 19, 68, 65, 26, 32};
-		h.fromArray(arr);
+		BinaryHeap<Integer> h = new BinaryHeap<Integer>(arr);
+//		BinaryHeap<Integer> h = new BinaryHeap();
+//		h.fromArray(arr);
 		h.insert(14);
 		h.print();
 		h.remove();
@@ -13,10 +14,13 @@ public class TestBinaryHeap {
 		h.remove();
 		h.print();
 		
-//		for (int i = 0; i < 10; i++) {
-//			h.insert(i);
+		BinaryHeap<Integer> m = new BinaryHeap<Integer>();
+		Integer[] a = {1,5,8,4,3,9,2,7};
+		m.fromArray(a);
+//		for (int i = 10; i > 0; i--) {
+//			m.insert(i);
 //		}
-//		h.print();
+		m.print();
 	}
 
 }

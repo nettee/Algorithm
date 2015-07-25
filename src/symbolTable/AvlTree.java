@@ -90,8 +90,8 @@ public class AvlTree<Key extends Comparable<Key>, Value> extends BST<Key, Value>
 	}
 	
 	public void deleteMin() {
-		if (root == null) {
-			throw new NullPointerException();
+		if (isEmpty()) {
+			return;
 		}
 		root = deleteMin(root);
 	}
@@ -107,8 +107,8 @@ public class AvlTree<Key extends Comparable<Key>, Value> extends BST<Key, Value>
 	}
 	
 	public void deleteMax() {
-		if (root == null) {
-			throw new NullPointerException();
+		if (isEmpty()) {
+			return;
 		}
 		root = deleteMax(root);
 	}
@@ -124,6 +124,9 @@ public class AvlTree<Key extends Comparable<Key>, Value> extends BST<Key, Value>
 	}
 	
 	public void delete(Key key) {
+		if (key == null) {
+			throw new NullPointerException("delete null key");
+		}
 		root = delete(root, key);
 	}
 	

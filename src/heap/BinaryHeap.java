@@ -9,7 +9,11 @@ public class BinaryHeap<Key extends Comparable<Key>> implements PQ<Key> {
 	
 	public BinaryHeap() {
 		N = 0;
-		a = (Key[]) new Comparable[100];
+		a = (Key[]) new Comparable[1];
+	}
+	
+	public BinaryHeap(Key[] arr) {
+		fromArray(arr);
 	}
 	
 	public boolean isEmpty() {
@@ -36,13 +40,8 @@ public class BinaryHeap<Key extends Comparable<Key>> implements PQ<Key> {
 			resize(2 * a.length);
 		}
 		
-		// percolate up
-		int hole = N++;
-		while (hole > 0 && key.compareTo(a[(hole-1)/2]) < 0) {
-			a[hole] = a[(hole-1)/2];
-			hole = (hole - 1) / 2;
-		}
-		a[hole] = key;
+		a[N++] = key;
+		percolateUp(N-1);
 	}
 	
 	public Key remove() {
@@ -65,10 +64,26 @@ public class BinaryHeap<Key extends Comparable<Key>> implements PQ<Key> {
 		return a[0];
 	}
 	
+	// build heap from unordered array
+	private void build() {
+		for (int i = (N-1)/2; i >= 0; i--) {
+			percolateDown(i);
+		}
+	}
+
+	private void percolateUp(int hole) {
+		Key temp = a[hole];
+		while (hole > 0 && temp.compareTo(a[(hole-1)/2]) < 0) {
+			a[hole] = a[(hole-1)/2];
+			hole = (hole - 1) / 2;
+		}
+		a[hole] = temp;
+	}
+	
 	private void percolateDown(int hole) {
-		int child;
 		Key temp = a[hole];
 		
+		int child;
 		while (hole * 2 + 1 <= N) {
 			
 			child = hole * 2 + 1;  // left child
@@ -90,9 +105,11 @@ public class BinaryHeap<Key extends Comparable<Key>> implements PQ<Key> {
 	
 	public void fromArray(Key[] from) {
 		N = from.length;
+		a = (Key[]) new Comparable[N];
 		for (int i = 0; i < N; i++) {
 			a[i] = from[i];
 		}
+		build();
 	}
 	
 	public Key[] toArray() {

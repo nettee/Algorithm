@@ -1,4 +1,4 @@
-package union_find;
+package unionFind;
 
 public class QuickFindUF {
 	private int[] id;
